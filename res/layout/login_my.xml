@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Login" />
+        android:text="Login"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/password"
@@ -18,17 +19,31 @@
         android:layout_above="@+id/login"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:inputType="textPassword" >
-
-        <requestFocus />
-    </EditText>
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/userid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/password"
         android:layout_centerHorizontal="true"
-        android:ems="10" />
+        android:ems="10"
+        android:hint="Staff ID"
+        android:maxLength="10"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@id/userid"
+        android:layout_alignRight="@id/userid"
+        android:gravity="center"
+        android:text="If you have not yet registered in the system, please ask you Systems Administrator to do this for you." />
 
 </RelativeLayout>

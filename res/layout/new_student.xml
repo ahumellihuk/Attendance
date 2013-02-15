@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/newStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Save"
+        android:textColor="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/newStudentModules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/info"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Modules"
+        android:textColorHint="#FFFFFFFF"
+        android:textColor="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/newStudentCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/newStudentModules"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Student ID"
+        android:textColorHint="#FFFFFFFF"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/newStudent"
+        android:layout_alignLeft="@+id/newStudentModules"
+        android:layout_alignRight="@+id/newStudentModules"
+        android:gravity="center"
+        android:text="Please delimit module codes with a semicolon &apos;;&apos;"
+        android:textSize="9sp" />
+
+    <EditText
+        android:id="@+id/newStudentLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/newStudentCode"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Last Name"
+        android:inputType="textPersonName"
+        android:textColorHint="#FFFFFFFF"
+        android:textColor="#FFFFFF" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/newStudentFirstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/newStudentLastName"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="First Name"
+        android:inputType="textPersonName"
+        android:textColorHint="#FFFFFFFF"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

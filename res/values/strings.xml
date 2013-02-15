@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Attendance</string>
+    <string name="app_name">Middlesex Attendance</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="title_activity_module">Your Modules</string>
+    <string name="title_activity_new_module">New Module</string>
+    <string name="title_activity_new_class">New Class</string>
+    <string name="title_activity_new_student">New Student</string>
+    <string name="title_activity_class">Class Details</string>
+    <string name="attendedStudents"><u>Attended students</u>:</string>
+    <string name="title_activity_students">Students</string>
 
 </resources>

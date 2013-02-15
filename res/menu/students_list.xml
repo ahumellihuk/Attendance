@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/add_item"
+          android:icon="@+drawable/ic_action_student"
+          android:title="Add Student"
+          android:showAsAction="ifRoom"/>
+</menu>

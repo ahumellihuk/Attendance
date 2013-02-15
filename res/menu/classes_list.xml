@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/students"
+       	android:icon="@+drawable/ic_action_students"
+        android:showAsAction="ifRoom"
+        android:title="Students"/>
+
+    <item android:id="@+id/add_item"
+          android:icon="@android:drawable/ic_menu_add"
+          android:title="Add Class"
+          android:showAsAction="ifRoom"/>
+</menu>
