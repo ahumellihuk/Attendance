@@ -70,6 +70,7 @@ public class StudentsActivity extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 	    ContextMenuInfo menuInfo) {
 	    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+	    menu.add("Edit");
 	    menu.add("Delete");
 	}
 	
@@ -78,8 +79,24 @@ public class StudentsActivity extends ListActivity {
 	  AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 	  TextView text = (TextView)info.targetView.findViewById(R.id.itemDetails);
 	  String id = text.getText().toString();
-	  AsyncTask<String,String,Integer> db = new DatabaseConnector(this, token, "Removing student...");
-	  db.execute("removeStudent",id);
+	  if (item.getTitle().equals("Edit")) {
+		  TextView nameField = (TextView)info.targetView.findViewById(R.id.itemName);
+		  String name = nameField.getText().toString();		  
+		  String names [] = name.split("\\s");
+		  TextView modulesField = (TextView)info.targetView.findViewById(R.id.itemDetails2);
+		  String moduleids = modulesField.getText().toString();
+		  
+		  Intent in = new Intent(getApplicationContext(), EditStudentActivity.class);
+			in.putExtra("id", id);
+			in.putExtra("firstname", names[0]);
+			in.putExtra("lastname", names[1]);
+			in.putExtra("modules", moduleids);
+			startActivity(in);
+	  }
+	  else {
+		  AsyncTask<String,String,Integer> db = new DatabaseConnector(this, token, "Removing student...");
+		  db.execute("removeStudent",id);
+	  }
 	  return true;
 	}
 

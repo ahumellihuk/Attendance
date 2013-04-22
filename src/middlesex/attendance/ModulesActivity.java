@@ -67,8 +67,8 @@ public class ModulesActivity extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 	    ContextMenuInfo menuInfo) {
 	    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-	    menu.add(0,0,0,"Delete");
-	    //menu.add(0,1,1,"Register Student");
+	    menu.add("Edit");
+	    menu.add("Delete");
 	}
 	
 	@Override
@@ -113,16 +113,20 @@ public class ModulesActivity extends ListActivity {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 	  	TextView text = (TextView)info.targetView.findViewById(R.id.itemDetails);
 	  	String id = text.getText().toString();
-		switch (item.getItemId()) {
-		case 0:
-		  	AsyncTask<String,String,Integer> db = new DatabaseConnector(this, token, "Removing module...");
+	  	
+	  	if (item.getTitle().equals("Edit")) {
+	  		TextView text2 = (TextView)info.targetView.findViewById(R.id.itemName);
+		  	String name = text2.getText().toString();
+		  	
+	  		Intent in = new Intent(getApplicationContext(), EditModuleActivity.class);
+			in.putExtra("id", id);
+			in.putExtra("name", name);
+			startActivity(in);
+	  	}
+	  	else {
+	  		AsyncTask<String,String,Integer> db = new DatabaseConnector(this, token, "Removing module...");
 		  	db.execute("removeModule",id);
-		  	break;
-		case 1:
-			IntentIntegrator integrator = new IntentIntegrator(ModulesActivity.this);
-			integrator.initiateScan();		  	
-		  	break;		  	
-		}	  
+	  	}	  
 	  return true;
 	}
 

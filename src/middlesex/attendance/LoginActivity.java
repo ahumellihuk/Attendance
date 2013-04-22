@@ -12,6 +12,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Displays a login screen, where user submits his details for authentication.
+ * @author Dmitri Samoilov
+ *
+ */
 public class LoginActivity extends Activity {
 	private SharedPreferences sharedPref;
 	private EditText userInput,passInput;

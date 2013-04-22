@@ -17,12 +17,24 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/**
+ * Classes Activity displays a list of all classes for a selected Module.
+ * @author Dmitri Samoilov
+ *
+ */
 public class ClassesActivity extends ListActivity {
-	
+	/**
+	 * Class ID code
+	 */
 	private String classID;
+	/**
+	 * Module ID code
+	 */
 	private String module;
 	private SharedPreferences sharedPref;
+	/**
+	 * User authentication token
+	 */
 	private String token;
 
 	@Override
@@ -70,7 +82,9 @@ public class ClassesActivity extends ListActivity {
 			updateList();
 		} 
 	}
-	
+	/**
+	 * Creates and executes new Database query, to get classes details.
+	 */
 	public void updateList() {
 		AsyncTask<String,String,Integer> db = new DatabaseConnector(this, token, "Fetching classes...");
 		db.execute("getClasses",module);
@@ -87,6 +101,7 @@ public class ClassesActivity extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 	    ContextMenuInfo menuInfo) {
 	    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+	    menu.add("Edit");
 	    menu.add("Delete");
 	}
 	
@@ -111,10 +126,27 @@ public class ClassesActivity extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 	  AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-	  TextView text = (TextView)info.targetView.findViewById(R.id.hidden);
-	  String id = text.getText().toString();
-	  AsyncTask<String,String,Integer> db = new DatabaseConnector(this, token, "Removing class...");
-	  db.execute("removeClass",id);
+	  TextView hidden = (TextView)info.targetView.findViewById(R.id.hidden);
+	  String id = hidden.getText().toString();
+	  if (item.getTitle().equals("Edit")) {
+			TextView name = (TextView)info.targetView.findViewById(R.id.itemName);
+			String className = name.getText().toString();
+			TextView date = (TextView)info.targetView.findViewById(R.id.itemDetails);
+			String classDate = date.getText().toString();
+			TextView time = (TextView)info.targetView.findViewById(R.id.itemDetails2);
+			String classTime = time.getText().toString();
+			
+			Intent in = new Intent(getApplicationContext(), EditClassActivity.class);
+			in.putExtra("id", id);
+			in.putExtra("name", className);
+			in.putExtra("date", classDate);
+			in.putExtra("time", classTime);
+			startActivity(in);
+	  }
+	  else {		  
+		  AsyncTask<String,String,Integer> db = new DatabaseConnector(this, token, "Removing class...");
+		  db.execute("removeClass",id);
+	  }
 	  return true;
 	}
 

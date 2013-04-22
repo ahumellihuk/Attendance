@@ -49,6 +49,18 @@
             android:label="@string/title_activity_new_student" >
         </activity>
         <activity
+            android:name="middlesex.attendance.EditClassActivity"
+            android:label="Edit Class" >
+        </activity>
+        <activity
+            android:name="middlesex.attendance.EditModuleActivity"
+            android:label="Edit Module" >
+        </activity>
+        <activity
+            android:name="middlesex.attendance.EditStudentActivity"
+            android:label="Edit Student" >
+        </activity>
+        <activity
             android:name="middlesex.attendance.ClassActivity"
             android:label="@string/title_activity_class" >
         </activity>

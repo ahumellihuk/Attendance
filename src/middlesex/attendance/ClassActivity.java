@@ -2,6 +2,7 @@ package middlesex.attendance;
 
 import middlesex.attendance.db.DatabaseConnector;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,10 +13,20 @@ import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
+/**
+ * Class Activity displays a single class details, along with attendance data for it.
+ * @author Dmitri Samoilov
+ *
+ */
 public class ClassActivity extends ListActivity {
+	/**
+	 * Class ID code
+	 */
 	private String classID;
 	private SharedPreferences sharedPref;
+	/**
+	 * User authentication token
+	 */
 	private String token;
 
 	@Override
@@ -39,7 +50,7 @@ public class ClassActivity extends ListActivity {
 		date.setText(classDate);
 		time.setText(classTime);
 		
-		sharedPref = getSharedPreferences("user", this.MODE_PRIVATE);
+		sharedPref = getSharedPreferences("user", Context.MODE_PRIVATE);
 		token = sharedPref.getString("token", null);
 		updateList();		
 	}
@@ -73,7 +84,9 @@ public class ClassActivity extends ListActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-
+	/**
+	 * Creates and executes new Database query, to get attendance data.
+	 */
 	public void updateList() {
 		AsyncTask<String,String,Integer> db = new DatabaseConnector(this, token, "Fetching student names...");
 		db.execute("getAttendance",classID);		

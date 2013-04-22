@@ -37,18 +37,21 @@ import android.widget.Toast;
 
 public class DatabaseConnector extends AsyncTask<String, String, Integer> {
 	
-	private static final String GET_ATTENDANCE_URL = "http://mdx.azurewebsites.net/getClassAttendance.php";
-	private static final String MARK_URL = "http://mdx.azurewebsites.net/markAttended.php";
-	private static final String GET_CLASSES_URL = "http://mdx.azurewebsites.net/getClasses.php";
-	private static final String GET_MODULES_URL = "http://mdx.azurewebsites.net/getModules.php";
-	private static final String GET_STUDENTS_URL = "http://mdx.azurewebsites.net/getStudents.php";
-	private static final String NEW_CLASS_URL = "http://mdx.azurewebsites.net/newClass.php";
-	private static final String NEW_MODULE_URL = "http://mdx.azurewebsites.net/newModule.php";
-	private static final String NEW_STUDENT_URL = "http://mdx.azurewebsites.net/newStudent.php";
-	private static final String REMOVE_CLASS_URL = "http://mdx.azurewebsites.net/removeClass.php";
-	private static final String REMOVE_MODULE_URL = "http://mdx.azurewebsites.net/removeModule.php";
-	private static final String REMOVE_STUDENT_URL = "http://mdx.azurewebsites.net/removeStudent.php";
-	private static final String LOGIN_URL = "http://mdx.azurewebsites.net/login.php";
+	private static final String GET_ATTENDANCE_URL = "http://mdxapi.azurewebsites.net/getClassAttendance.php";
+	private static final String MARK_URL = "http://mdxapi.azurewebsites.net/markAttended.php";
+	private static final String GET_CLASSES_URL = "http://mdxapi.azurewebsites.net/getClasses.php";
+	private static final String GET_MODULES_URL = "http://mdxapi.azurewebsites.net/getModules.php";
+	private static final String GET_STUDENTS_URL = "http://mdxapi.azurewebsites.net/getStudents.php";
+	private static final String NEW_CLASS_URL = "http://mdxapi.azurewebsites.net/newClass.php";
+	private static final String NEW_MODULE_URL = "http://mdxapi.azurewebsites.net/newModule.php";
+	private static final String NEW_STUDENT_URL = "http://mdxapi.azurewebsites.net/newStudent.php";
+	private static final String EDIT_CLASS_URL = "http://mdxapi.azurewebsites.net/editClass.php";
+	private static final String EDIT_MODULE_URL = "http://mdxapi.azurewebsites.net/editModule.php";
+	private static final String EDIT_STUDENT_URL = "http://mdxapi.azurewebsites.net/editStudent.php";
+	private static final String REMOVE_CLASS_URL = "http://mdxapi.azurewebsites.net/removeClass.php";
+	private static final String REMOVE_MODULE_URL = "http://mdxapi.azurewebsites.net/removeModule.php";
+	private static final String REMOVE_STUDENT_URL = "http://mdxapi.azurewebsites.net/removeStudent.php";
+	private static final String LOGIN_URL = "http://mdxapi.azurewebsites.net/login.php";
 	private static final int STUDENT_MARKED = 1;
 	private static final int STUDENT_NOT_MARKED = 0;
 	private static final int CLASS_STUDENTS_LOADED = 3;
@@ -73,6 +76,12 @@ public class DatabaseConnector extends AsyncTask<String, String, Integer> {
 	private static final int LOGIN_DENIED = -2;
 	private static final int STUDENT_REMOVED = 21;
 	private static final int STUDENT_NOT_REMOVED = 20;
+	private static final int CLASS_EDITED = 23;
+	private static final int CLASS_NOT_EDITED = 22;
+	private static final int MODULE_EDITED = 25;
+	private static final int MODULE_NOT_EDITED = 24;
+	private static final int STUDENT_EDITED = 27;
+	private static final int STUDENT_NOT_EDITED = 26;
 	private String waitMessage;
 	private Activity parent;
 	private ProgressDialog pDialog; 
@@ -126,8 +135,17 @@ public class DatabaseConnector extends AsyncTask<String, String, Integer> {
 		else if (args[0] == "newStudent") {
 			result = newStudent(args[1],args[2],args[3],args[4]);
 		}
+		else if (args[0] == "editStudent") {
+			result = editStudent(args[1],args[2],args[3],args[4]);
+		}
 		else if (args[0] == "newModule") {
 			result = newModule(args[1],args[2]);
+		}
+		else if (args[0] == "editModule") {
+			result = editModule(args[1],args[2]);
+		}
+		else if (args[0] == "editClass") {
+			result = editClass(args[1],args[2],args[3],args[4]);
 		}
 		else if (args[0] == "removeClass") {
 			result = removeClass(args[1]);
@@ -144,6 +162,75 @@ public class DatabaseConnector extends AsyncTask<String, String, Integer> {
         return result;
 	}
 	
+	private Integer editModule(String code, String name) {
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+        
+        params.add(new BasicNameValuePair("code", code));
+        params.add(new BasicNameValuePair("name", name));
+        params.add(new BasicNameValuePair("token", token));
+        
+        JSONObject json = jParser.makeHttpRequest(EDIT_MODULE_URL, "POST", params);
+
+        try {
+            int success = json.getInt("success");
+            message = json.getString("message");
+            if (success == 1) {
+                return MODULE_EDITED;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return MODULE_NOT_EDITED;
+	}
+
+	private Integer editStudent(String firstname, String lastname, String code,
+			String moduleids) {
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+        
+        params.add(new BasicNameValuePair("code", code));
+        params.add(new BasicNameValuePair("firstname", firstname));
+        params.add(new BasicNameValuePair("lastname", lastname));
+        params.add(new BasicNameValuePair("modules", moduleids));
+        params.add(new BasicNameValuePair("token", token));
+        
+        JSONObject json = jParser.makeHttpRequest(EDIT_STUDENT_URL, "POST", params);
+
+        try {
+            int success = json.getInt("success");
+            message = json.getString("message");
+            if (success == 1) {
+                return STUDENT_EDITED;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return STUDENT_NOT_EDITED;
+	}
+
+	private Integer editClass(String id, String name, String date,
+			String time) {
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+        
+		params.add(new BasicNameValuePair("id", id));
+        params.add(new BasicNameValuePair("name", name));
+        params.add(new BasicNameValuePair("date", date));
+        params.add(new BasicNameValuePair("time", time));
+        params.add(new BasicNameValuePair("token", token));
+        
+        JSONObject json = jParser.makeHttpRequest(EDIT_CLASS_URL, "POST", params);
+
+        try {
+            int success = json.getInt("success");
+            message = json.getString("message");
+            if (success == 1) {
+                return CLASS_EDITED;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return CLASS_NOT_EDITED;
+	}
+
 	private Integer removeStudent(String id) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("id", id));
@@ -529,6 +616,33 @@ public class DatabaseConnector extends AsyncTask<String, String, Integer> {
 			toast.show();
 			break;
 		case NEW_CLASS_CREATED:
+			toast = Toast.makeText(parent.getApplicationContext(), message, Toast.LENGTH_SHORT);
+			toast.show();
+			parent.finish();
+			break;
+		case CLASS_NOT_EDITED:
+			toast = Toast.makeText(parent.getApplicationContext(), message, Toast.LENGTH_SHORT);
+			toast.show();
+			break;
+		case CLASS_EDITED:
+			toast = Toast.makeText(parent.getApplicationContext(), message, Toast.LENGTH_SHORT);
+			toast.show();
+			parent.finish();
+			break;
+		case MODULE_NOT_EDITED:
+			toast = Toast.makeText(parent.getApplicationContext(), message, Toast.LENGTH_SHORT);
+			toast.show();
+			break;
+		case MODULE_EDITED:
+			toast = Toast.makeText(parent.getApplicationContext(), message, Toast.LENGTH_SHORT);
+			toast.show();
+			parent.finish();
+			break;
+		case STUDENT_NOT_EDITED:
+			toast = Toast.makeText(parent.getApplicationContext(), message, Toast.LENGTH_SHORT);
+			toast.show();
+			break;
+		case STUDENT_EDITED:
 			toast = Toast.makeText(parent.getApplicationContext(), message, Toast.LENGTH_SHORT);
 			toast.show();
 			parent.finish();

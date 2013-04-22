@@ -4,25 +4,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class Class implements Parcelable {
+public class Class {
 
 	private String id;
 	private String moduleId;
 	private Calendar date;
 	private String name;
-	private HashMap<Integer, Boolean> attendance;
 	
 	public Class(String id, String module, String name) {
 		this.id = id;
 		this.moduleId = module;
 		this.name = name;
-	}
-	
-	public void setAttended(int student) {
-		attendance.put(student, true);
 	}
 	
 	public String getId() {
@@ -69,22 +61,6 @@ public class Class implements Parcelable {
 		output += "0" + date.get(Calendar.MINUTE);
 		else output += date.get(Calendar.MINUTE);
 		return output;
-	}
-
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel parcel, int flags) {
-		parcel.writeString(id);
-		parcel.writeString(moduleId);
-		parcel.writeSerializable(date);
-		parcel.writeString(name);
-		parcel.writeMap(attendance);
-	}
-	
+	}	
 	
 }
